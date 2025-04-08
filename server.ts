@@ -1,11 +1,11 @@
-import { createHandler } from "graphql-http/lib/use/express";
-import express from "express";
-import cors from "cors";
-import expressPlayground from "graphql-playground-middleware-express";
+import { ApolloServer } from "@apollo/server";
+
+import { startStandaloneServer } from "@apollo/server/standalone";
 import { resolvers } from "./resolvers";
 import { GraphQLFileLoader } from "@graphql-tools/graphql-file-loader";
 import { loadSchemaSync } from "@graphql-tools/load";
 import { addResolversToSchema } from "@graphql-tools/schema";
+import { ApolloServerPluginLandingPageGraphQLPlayground } from "@apollo/server-plugin-landing-page-graphql-playground";
 
 // schema is `GraphQLSchema` instance
 const schema = loadSchemaSync("**/*.gql", {
@@ -19,18 +19,13 @@ const schemaWithResolvers = addResolversToSchema({
   resolvers: resolvers,
 });
 
-const app = express();
+const server = new ApolloServer({
+  schema: schemaWithResolvers,
+  plugins: [ApolloServerPluginLandingPageGraphQLPlayground()],
+});
 
-// Create and use the GraphQL handler.
-app.use(cors());
-app.all(
-  "/graphql",
-  createHandler({
-    schema: schemaWithResolvers,
-  })
-);
-app.get("/playground", expressPlayground({ endpoint: "/graphql" }));
+const { url } = await startStandaloneServer(server, {
+  listen: { port: 4000 },
+});
 
-// Start the server at port
-app.listen(4000);
-console.log("Running a GraphQL API server at http://localhost:4000/graphql");
+console.log(`🚀  Server ready at: ${url}`);
