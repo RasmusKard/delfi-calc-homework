@@ -1,7 +1,7 @@
 import { ApolloServer } from "@apollo/server";
 
 import { startStandaloneServer } from "@apollo/server/standalone";
-import { resolvers } from "./resolvers";
+import { resolvers } from "./resolvers.js";
 import { GraphQLFileLoader } from "@graphql-tools/graphql-file-loader";
 import { loadSchemaSync } from "@graphql-tools/load";
 import { addResolversToSchema } from "@graphql-tools/schema";
