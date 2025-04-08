@@ -24,8 +24,12 @@ const server = new ApolloServer({
   plugins: [ApolloServerPluginLandingPageGraphQLPlayground()],
 });
 
-const { url } = await startStandaloneServer(server, {
-  listen: { port: 4000 },
-});
+async function createApolloServer(port?: number) {
+  const { url } = await startStandaloneServer(server, {
+    listen: { port: port },
+  });
+  console.log(`🚀 Server ready at ${url}`);
+  return { server: server, url: url };
+}
 
-console.log(`🚀  Server ready at: ${url}`);
+export default createApolloServer;

@@ -1,4 +1,4 @@
-schema: "**/*.gql"
+schema: "schema.gql"
 extensions:
   codegen:
     overwrite: true

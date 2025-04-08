@@ -1,9 +1,9 @@
-import { Resolvers, Test } from "./src/generated/graphql.js";
+import { Resolvers } from "./src/generated/graphql.js";
 
 export const resolvers: Resolvers = {
   Query: {
-    test: () => {
-      return { bruhh: "test" };
+    sum: (_, { input }) => {
+      return input.reduce((sum, partialSum) => sum + partialSum, 0);
     },
   },
 };
