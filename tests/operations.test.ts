@@ -1,5 +1,5 @@
 import { after, before, describe, it } from "node:test";
-import createApolloServer from "../server";
+import createApolloServer from "../src/server";
 import request from "supertest";
 import { ApolloServer, BaseContext } from "@apollo/server";
 import assert from "node:assert/strict";
