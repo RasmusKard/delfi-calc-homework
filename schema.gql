@@ -1,8 +1,6 @@
 type Query {
-  test: Test
-}
-
-type Test {
-  name: String
-  bruhh: String
+  sum(input: [Float]): Float
+  subtract(input: [Float]): Float
+  multiply(input: [Float]): Float
+  divide(input: [Float]): Float
 }
