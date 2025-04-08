@@ -1,0 +1,35 @@
+{
+  "name": "delfi-calc-homework",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "codegen": "graphql-codegen --watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "description": "",
+  "dependencies": {
+    "@graphql-tools/graphql-file-loader": "^8.0.19",
+    "@graphql-tools/load": "^8.0.19",
+    "@graphql-tools/schema": "^10.0.23",
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "express-graphql": "^0.12.0",
+    "graphql": "^15.10.1",
+    "graphql-http": "^1.22.4",
+    "graphql-playground-middleware-express": "^1.7.23"
+  },
+  "devDependencies": {
+    "@graphql-codegen/cli": "5.0.5",
+    "@graphql-codegen/introspection": "4.0.3",
+    "@graphql-codegen/typescript": "4.1.6",
+    "@graphql-codegen/typescript-resolvers": "4.5.0",
+    "@parcel/watcher": "^2.5.1",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.1",
+    "typescript": "^5.8.3"
+  }
+}
