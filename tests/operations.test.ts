@@ -41,7 +41,7 @@ describe("test graphql operations", async () => {
     };
     const response = await request(url).post("/").send(queryData);
     assert.ok(response);
-    assert.strictEqual(response.body.data?.substract, -1);
+    assert.strictEqual(response.body.data?.subtract, -1);
   });
 
   it("multiply returns collect value with 3 operands", async () => {
@@ -54,7 +54,7 @@ describe("test graphql operations", async () => {
     };
     const response = await request(url).post("/").send(queryData);
     assert.ok(response);
-    assert.strictEqual(response.body.data?.substract, 24);
+    assert.strictEqual(response.body.data?.multiply, 24);
   });
 
   it("divide returns collect value with 3 operands", async () => {
@@ -67,6 +67,6 @@ describe("test graphql operations", async () => {
     };
     const response = await request(url).post("/").send(queryData);
     assert.ok(response);
-    assert.strictEqual(response.body.data?.substract, 2 / 3);
+    assert.strictEqual(response.body.data?.divide, 2 / 3);
   });
 });
