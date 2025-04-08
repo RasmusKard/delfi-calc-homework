@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "node --watch --import tsx --test **/*.test.ts",
+    "test": "node --import tsx --test **/*.test.ts",
     "codegen": "graphql-codegen --watch",
     "start": "tsc && node ./dist/index.js",
-    "devStart": "npm run codegen & npm test & tsx --watch ./src/index.ts"
+    "devStart": "npm run codegen & node --watch --import tsx --test **/*.test.ts & tsx --watch ./src/index.ts"
   },
   "keywords": [],
   "author": "",
@@ -22,13 +22,13 @@
     "@graphql-tools/graphql-file-loader": "^8.0.19",
     "@graphql-tools/load": "^8.0.19",
     "@graphql-tools/schema": "^10.0.23",
-    "graphql": "^16.10.0"
+    "graphql": "^16.10.0",
+    "supertest": "^7.1.0"
   },
   "devDependencies": {
     "@parcel/watcher": "^2.5.1",
     "@types/node": "^22.14.0",
     "@types/supertest": "^6.0.3",
-    "supertest": "^7.1.0",
     "tsx": "^4.19.3",
     "typescript": "^5.8.3"
   }

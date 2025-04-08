@@ -9,6 +9,12 @@ RUN npm install \
 COPY . .
 CMD npx graphql-codegen && npm start
 
+FROM base as ci
+RUN npm ci \
+    && npm install typescript -g
+COPY . .
+CMD npx graphql-codegen && npm start
+
 FROM base as dev
 RUN npm install \
     && npm install tsx -g

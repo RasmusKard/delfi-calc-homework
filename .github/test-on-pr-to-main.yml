@@ -1,0 +1,19 @@
+name: Test GraphQL before merge
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build and start Docker container with GraphQL server
+        run: TARGET=ci docker compose up -d --build
+
+      - name: Test GraphQL server
+        run: docker exec -it graphql-server npm test
