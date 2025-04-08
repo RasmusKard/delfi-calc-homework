@@ -1,7 +1,8 @@
 services:
   graphql-server:
+    container_name: graphql-server
     build:
       context: .
-      target: prod
+      target: ${TARGET:-prod}
     ports:
       - 4000:4000
