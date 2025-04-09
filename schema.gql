@@ -3,4 +3,34 @@ type Query {
   subtract(input: [Float]): Float
   multiply(input: [Float]): Float
   divide(input: [Float]): Float
+  calculate(input: OperationInput!): Float!
+  calcNest: [Query]
+  sumNest: [Query]
+}
+
+union QueryUnion = QueryBox | FloatBox
+
+type QueryBox {
+  query: Query
+}
+
+type FloatBox {
+  value: Float
+}
+
+input ValueInput {
+  numbers: [Float]
+  operation: OperationInput
+}
+
+input OperationInput {
+  type: OperationType!
+  values: [ValueInput!]!
+}
+
+enum OperationType {
+  SUM
+  SUBTRACT
+  MULTIPLY
+  DIVIDE
 }

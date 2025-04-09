@@ -69,4 +69,94 @@ describe("test graphql operations", async () => {
     assert.ok(response);
     assert.strictEqual(response.body.data?.divide, 2 / 3);
   });
+
+  it("nested sum with 4 operations", async () => {
+    const queryData = {
+      query: `
+          query {
+            calculate(
+              input: {
+                type: SUM
+                values: [
+                  { numbers: [1, 2, 3] }
+                  {
+                    operation: {
+                      type: SUM
+                      values: [
+                        { numbers: [2, 34] }
+                        { operation: { type: SUM, values: { numbers: [4, 543, 23] } } }
+                      ]
+                    }
+                  }
+                ]
+              }
+            )
+      }
+      `,
+    };
+    const response = await request(url).post("/").send(queryData);
+    assert.ok(response);
+
+    assert.strictEqual(response.body.data?.calculate, 612);
+  });
+
+  it("nested subtract with 4 operations", async () => {
+    const queryData = {
+      query: `
+          query {
+            calculate(
+              input: {
+                type: SUBTRACT
+                values: [
+                  { numbers: [1, 2, 3] }
+                  {
+                    operation: {
+                      type: SUBTRACT
+                      values: [
+                        { numbers: [2, 34] }
+                        { operation: { type: SUBTRACT, values: { numbers: [4, 543, 23] } } }
+                      ]
+                    }
+                  }
+                ]
+              }
+            )
+      }
+      `,
+    };
+    const response = await request(url).post("/").send(queryData);
+    assert.ok(response);
+
+    assert.strictEqual(response.body.data?.calculate, -534);
+  });
+
+  it("nested multiply with 4 operations", async () => {
+    const queryData = {
+      query: `
+          query {
+            calculate(
+              input: {
+                type: MULTIPLY
+                values: [
+                  { numbers: [1, 2, 3] }
+                  {
+                    operation: {
+                      type: MULTIPLY
+                      values: [
+                        { numbers: [2, 34] }
+                        { operation: { type: MULTIPLY, values: { numbers: [4, 543, 23] } } }
+                      ]
+                    }
+                  }
+                ]
+              }
+            )
+      }
+      `,
+    };
+    const response = await request(url).post("/").send(queryData);
+    assert.ok(response);
+
+    assert.strictEqual(response.body.data?.calculate, 20382048);
+  });
 });
