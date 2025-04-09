@@ -1,6 +1,24 @@
 type Query {
-  sum(input: [Float]): Float
-  subtract(input: [Float]): Float
-  multiply(input: [Float]): Float
-  divide(input: [Float]): Float
+  sum(nums: [Float!]!): Float!
+  subtract(nums: [Float!]!): Float!
+  multiply(nums: [Float!]!): Float!
+  divide(nums: [Float!]!): Float!
+  nestedCalc(operation: OperationInput!): Float!
+}
+
+input ValueInput {
+  numbers: [Float]
+  operation: OperationInput
+}
+
+input OperationInput {
+  type: OperationType!
+  values: [ValueInput!]!
+}
+
+enum OperationType {
+  SUM
+  SUBTRACT
+  MULTIPLY
+  DIVIDE
 }
