@@ -1,4 +1,4 @@
-name: Test GraphQL before merge
+name: Test and lint GraphQL before merge
 
 on:
   pull_request:
@@ -15,6 +15,9 @@ jobs:
 
       - name: Build and start Docker container with GraphQL server
         run: TARGET=ci docker compose up -d --build --wait
+
+      - name: Run Eslint
+        run: docker exec graphql-server npx eslint .
 
       - name: Test GraphQL server
         run: docker exec graphql-server npm test
