@@ -21,12 +21,12 @@ describe("test graphql operations", async () => {
     const queryData = {
       query: `
         query {
-          sum(input: ${threeOperandInput})
+          sum(nums: ${threeOperandInput})
         }
       `,
     };
     const response = await request(url).post("/").send(queryData);
-    assert.ok(response);
+    assert.ok(response.ok);
 
     assert.strictEqual(response.body.data?.sum, 9);
   });
@@ -35,12 +35,12 @@ describe("test graphql operations", async () => {
     const queryData = {
       query: `
         query {
-          subtract(input: ${threeOperandInput})
+          subtract(nums: ${threeOperandInput})
         }
       `,
     };
     const response = await request(url).post("/").send(queryData);
-    assert.ok(response);
+    assert.ok(response.ok);
     assert.strictEqual(response.body.data?.subtract, -1);
   });
 
@@ -48,12 +48,12 @@ describe("test graphql operations", async () => {
     const queryData = {
       query: `
         query {
-          multiply(input: ${threeOperandInput})
+          multiply(nums: ${threeOperandInput})
         }
       `,
     };
     const response = await request(url).post("/").send(queryData);
-    assert.ok(response);
+    assert.ok(response.ok);
     assert.strictEqual(response.body.data?.multiply, 24);
   });
 
@@ -61,21 +61,21 @@ describe("test graphql operations", async () => {
     const queryData = {
       query: `
         query {
-          divide(input: ${threeOperandInput})
+          divide(nums: ${threeOperandInput})
         }
       `,
     };
     const response = await request(url).post("/").send(queryData);
-    assert.ok(response);
+    assert.ok(response.ok);
     assert.strictEqual(response.body.data?.divide, 2 / 3);
   });
 
-  it("nested sum with 4 operations", async () => {
+  it("nested sum with 3 operations", async () => {
     const queryData = {
       query: `
           query {
-            calculate(
-              input: {
+            nestedCalc(
+              operation: {
                 type: SUM
                 values: [
                   { numbers: [1, 2, 3] }
@@ -95,17 +95,17 @@ describe("test graphql operations", async () => {
       `,
     };
     const response = await request(url).post("/").send(queryData);
-    assert.ok(response);
+    assert.ok(response.ok);
 
-    assert.strictEqual(response.body.data?.calculate, 612);
+    assert.strictEqual(response.body.data?.nestedCalc, 612);
   });
 
-  it("nested subtract with 4 operations", async () => {
+  it("nested subtract with 3 operations", async () => {
     const queryData = {
       query: `
           query {
-            calculate(
-              input: {
+            nestedCalc(
+              operation: {
                 type: SUBTRACT
                 values: [
                   { numbers: [1, 2, 3] }
@@ -125,17 +125,16 @@ describe("test graphql operations", async () => {
       `,
     };
     const response = await request(url).post("/").send(queryData);
-    assert.ok(response);
-
-    assert.strictEqual(response.body.data?.calculate, -534);
+    assert.ok(response.ok);
+    assert.strictEqual(response.body.data?.nestedCalc, -534);
   });
 
-  it("nested multiply with 4 operations", async () => {
+  it("nested multiply with 3 operations", async () => {
     const queryData = {
       query: `
           query {
-            calculate(
-              input: {
+            nestedCalc(
+              operation: {
                 type: MULTIPLY
                 values: [
                   { numbers: [1, 2, 3] }
@@ -155,8 +154,38 @@ describe("test graphql operations", async () => {
       `,
     };
     const response = await request(url).post("/").send(queryData);
-    assert.ok(response);
+    assert.ok(response.ok);
 
-    assert.strictEqual(response.body.data?.calculate, 20382048);
+    assert.strictEqual(response.body.data?.nestedCalc, 20382048);
+  });
+
+  it("nested divide with 3 operations", async () => {
+    const queryData = {
+      query: `
+          query {
+            nestedCalc(
+              operation: {
+                type: DIVIDE
+                values: [
+                  { numbers: [1, 4, 2] }
+                  {
+                    operation: {
+                      type: DIVIDE
+                      values: [
+                        { numbers: [4, 2] }
+                        { operation: { type: DIVIDE, values: { numbers: [4, 2, 8] } } }
+                      ]
+                    }
+                  }
+                ]
+              }
+            )
+      }
+      `,
+    };
+    const response = await request(url).post("/").send(queryData);
+    assert.ok(response.ok);
+
+    assert.strictEqual(response.body.data?.nestedCalc, 0.015625);
   });
 });

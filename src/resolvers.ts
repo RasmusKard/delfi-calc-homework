@@ -1,21 +1,12 @@
-import { Resolvers } from "./generated/graphql.js";
-import { OperationType } from "./generated/graphql.js";
-import { ValueInput, OperationInput } from "./generated/graphql.js";
+import {
+  Resolvers,
+  OperationType,
+  ValueInput,
+  OperationInput,
+} from "./generated/graphql.js";
 
-// operationi type ja operationi value
-// operationi value sees on nested numbers[] ning potentsiaalselt veel operation
-
-// if input.operationtype
-// call resolveoperation to resolve it
-
-// if input.numbers
-// use current operationtype to resolve it
-
-// if values.operation
-// map it onto resolveoperation
-
-function reduceValues(values: number[], operation: OperationType) {
-  switch (operation) {
+function calculate(values: number[], opType: OperationType) {
+  switch (opType) {
     case OperationType.Sum:
       return values.reduce((a, b) => a + b);
     case OperationType.Subtract:
@@ -27,42 +18,38 @@ function reduceValues(values: number[], operation: OperationType) {
   }
 }
 
-function resolveValue(values: ValueInput, operation: OperationType) {
-  // if is numbers then do calc based on operation
+function resolveValue(values: ValueInput, parentOpType: OperationType) {
+  // if is numbers then do calc based on parent operation type
   if (values.numbers) {
-    return reduceValues(values.numbers, operation);
+    return calculate(values.numbers, parentOpType);
   }
 
-  // if is operation then recursively call this
+  // if is operation then recursively call resolve
   if (values.operation) {
-    const childValues = values.operation.values.map((input) =>
-      resolveValue(input, values.operation.type)
-    );
-
-    return reduceValues(childValues, values.operation.type);
+    return resolveOperation(values.operation);
   }
+}
+
+function resolveOperation(operation: OperationInput) {
+  const parentOpType = operation.type;
+
+  const childOpResults = operation.values.map((childValue) =>
+    resolveValue(childValue, parentOpType)
+  );
+
+  return calculate(childOpResults, parentOpType);
 }
 
 export const resolvers: Resolvers = {
   Query: {
-    sum: (_, { input }) => {
-      return reduceValues(input, OperationType.Sum);
-    },
-    subtract: (_, { input }) => {
-      return reduceValues(input, OperationType.Subtract);
-    },
-    multiply: (_, { input }) => {
-      return reduceValues(input, OperationType.Multiply);
-    },
-    divide: (_, { input }) => {
-      return reduceValues(input, OperationType.Divide);
-    },
-    calculate: (_parent, { input }) => {
-      const opType = input.type;
-      const thing = input.values.map((input) => {
-        return resolveValue(input, opType);
-      });
-      return reduceValues(thing, opType);
-    },
+    sum: (_, { nums }) => calculate(nums, OperationType.Sum),
+
+    subtract: (_, { nums }) => calculate(nums, OperationType.Subtract),
+
+    multiply: (_, { nums }) => calculate(nums, OperationType.Multiply),
+
+    divide: (_, { nums }) => calculate(nums, OperationType.Divide),
+
+    nestedCalc: (_, { operation }) => resolveOperation(operation),
   },
 };
