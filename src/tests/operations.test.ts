@@ -4,6 +4,8 @@ import request from "supertest";
 import { ApolloServer, BaseContext } from "@apollo/server";
 import assert from "node:assert/strict";
 
+const threeOperandInput = JSON.stringify([4, 2, 3]);
+
 describe("test graphql operations", async () => {
   let server: ApolloServer<BaseContext>, url: string;
 
@@ -14,8 +16,6 @@ describe("test graphql operations", async () => {
   after(async () => {
     await server?.stop();
   });
-
-  const threeOperandInput = JSON.stringify([4, 2, 3]);
 
   it("sum returns collect value with 3 operands", async () => {
     const queryData = {

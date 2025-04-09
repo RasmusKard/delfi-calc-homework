@@ -1,9 +1,0 @@
-services:
-  graphql-server:
-    build:
-      context: .
-      target: dev
-    ports:
-      - 4000:4000
-    volumes:
-      - ./:/usr/graphql-calc

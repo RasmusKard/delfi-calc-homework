@@ -13,10 +13,3 @@ FROM base AS ci
 RUN npm ci 
 COPY . .
 CMD npx graphql-codegen && npm start
-
-FROM base AS dev
-RUN npm install \
-    && npm install tsx -g
-COPY . .
-CMD ["npm","run","devStart"]
-
