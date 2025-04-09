@@ -15,6 +15,8 @@ function calculate(values: number[], opType: OperationType) {
       return values.reduce((a, b) => a * b);
     case OperationType.Divide:
       return values.reduce((a, b) => a / b);
+    default:
+      throw new Error("Unknown operation type");
   }
 }
 
@@ -28,9 +30,11 @@ function resolveValue(values: ValueInput, parentOpType: OperationType) {
   if (values.operation) {
     return resolveOperation(values.operation);
   }
+
+  throw new Error("Empty ValueInput");
 }
 
-function resolveOperation(operation: OperationInput) {
+function resolveOperation(operation: OperationInput): number {
   const parentOpType = operation.type;
 
   const childOpResults = operation.values.map((childValue) =>
