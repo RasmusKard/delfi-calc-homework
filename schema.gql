@@ -1,8 +1,14 @@
 type Query {
   sum(nums: [Float!]!): Float!
+
   subtract(nums: [Float!]!): Float!
+
   multiply(nums: [Float!]!): Float!
+
   divide(nums: [Float!]!): Float!
+  """
+  Nested calculations using OperationInput
+  """
   nestedCalc(operation: OperationInput!): Float!
 }
 

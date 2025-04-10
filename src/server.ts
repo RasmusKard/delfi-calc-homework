@@ -19,6 +19,7 @@ const schemaWithResolvers = addResolversToSchema({
 const server = new ApolloServer({
   schema: schemaWithResolvers,
   plugins: [ApolloServerPluginLandingPageGraphQLPlayground()],
+  introspection: true,
 });
 
 async function createApolloServer(port?: number) {
