@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "node --import tsx --test **/*.test.ts",
+    "test": "node --import tsx --test --test-force-exit ./**/**/*.test.ts",
     "codegen": "graphql-codegen --watch",
     "start": "tsc && node ./dist/index.js",
-    "devStart": "npm run codegen & node --watch --import tsx --test **/*.test.ts & tsx --watch ./src/index.ts"
+    "devStart": "npm run codegen & node --watch --import tsx --test ./**/**/*.test.ts & tsx --watch ./src/index.ts"
   },
   "keywords": [],
   "author": "",
@@ -23,12 +23,15 @@
     "@graphql-tools/load": "^8.0.19",
     "@graphql-tools/schema": "^10.0.23",
     "graphql": "^16.10.0",
+    "object-hash": "^3.0.0",
+    "redis": "^4.7.0",
     "supertest": "^7.1.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.24.0",
     "@parcel/watcher": "^2.5.1",
     "@types/node": "^22.14.0",
+    "@types/object-hash": "^3.0.6",
     "@types/supertest": "^6.0.3",
     "eslint": "^9.24.0",
     "globals": "^16.0.0",
