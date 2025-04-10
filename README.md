@@ -50,6 +50,12 @@ A few examples of queries.
   ```
 </details>
 
+```graphql
+query {
+  multiply(nums: [4, 10, 88])
+}
+```
+
 <details>
   <summary><strong>MULTIPLY (4 x 10 x 88)</strong></summary>
   <br>
