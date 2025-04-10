@@ -2,6 +2,17 @@
 
 GraphQL server homework for Delfi.
 
+### Highlights
+
+- Docker compose with GraphQL server and Redis server
+- GraphQL tests with supertest
+- Github workflow with tests and lint as a prerequisite for merge
+- Basic queries with math equations
+- Nested queries with math equations resolved recursively
+- GraphQL schema-first TypeScript codegen
+- Caching of calculations using Redis and object-hash
+
+
 ### Prerequisites
 
 The things you need before installing the software.
