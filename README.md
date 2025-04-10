@@ -31,44 +31,43 @@ A few examples of queries.
 ### Basic operations with just one operator type
 
 <details>
-<summary>SUM (5 + 12 + 8)</summary>
-<br>
-```
-query {
-  sum(nums: [5, 12, 8])
-}
-```
+  <summary><strong>SUM (5 + 12 + 8)</strong></summary>
+  <br>
+  ```graphql
+  query {
+    sum(nums: [5, 12, 8])
+  }
+  ```
 </details>
 
 <details>
-<summary>SUBTRACT (8 - 12 - 9 - 10)</summary>
-<br>
-```
-query {
-  subtract(nums: [8, 12, 9, 10])
-}
-```
-
+  <summary><strong>SUBTRACT (8 - 12 - 9 - 10)</strong></summary>
+  <br>
+  ```graphql
+  query {
+    subtract(nums: [8, 12, 9, 10])
+  }
+  ```
 </details>
 
 <details>
-<summary>MULTIPLY (4 x 10 x 88)</summary>
-<br>
-```
-query {
-multiply(nums: [4, 10, 88])
-}
-```
+  <summary><strong>MULTIPLY (4 x 10 x 88)</strong></summary>
+  <br>
+  ```graphql
+  query {
+    multiply(nums: [4, 10, 88])
+  }
+  ```
 </details>
 
 <details>
-<summary>DIVIDE (128 / 4 / 2)</summary>
-<br>
-```
-query {
-divide(nums: [128, 4, 2])
-}
-```
+  <summary><strong>DIVIDE (128 / 4 / 2)</strong></summary>
+  <br>
+  ```graphql
+  query {
+    divide(nums: [128, 4, 2])
+  }
+  ```
 </details>
 
 ## Deployment
