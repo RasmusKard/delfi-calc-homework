@@ -47,19 +47,17 @@ query {
 query {
   subtract(nums: [8, 12, 9, 10])
 }
-
 ```
+
 </details>
 
 <details>
 <summary>MULTIPLY (4 x 10 x 88)</summary>
 <br>
 ```
-
 query {
 multiply(nums: [4, 10, 88])
 }
-
 ```
 </details>
 
@@ -67,15 +65,11 @@ multiply(nums: [4, 10, 88])
 <summary>DIVIDE (128 / 4 / 2)</summary>
 <br>
 ```
-
 query {
 divide(nums: [128, 4, 2])
 }
-
 ```
 </details>
-
-
 
 ## Deployment
 
@@ -100,4 +94,7 @@ Additional notes on how to deploy this on a live or release system. Explaining t
 - Confluence link:
 - Asana board:
 - etc...
+
+```
+
 ```
