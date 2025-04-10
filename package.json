@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "node --import tsx --test ./**/**/*.test.ts",
+    "test": "node --import tsx --test --test-force-exit ./**/**/*.test.ts",
     "codegen": "graphql-codegen --watch",
     "start": "tsc && node ./dist/index.js",
     "devStart": "npm run codegen & node --watch --import tsx --test ./**/**/*.test.ts & tsx --watch ./src/index.ts"
