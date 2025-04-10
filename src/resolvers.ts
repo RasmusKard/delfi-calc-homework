@@ -5,22 +5,47 @@ import {
   OperationInput,
 } from "./generated/graphql.js";
 
-function calculate(values: number[], opType: OperationType) {
+import { getCacheIfPresent, setCacheValue, getCacheKey } from "./redis.js";
+import { GraphQLError } from "graphql";
+
+async function calculate(values: number[], opType: OperationType) {
+  if (!values.length) {
+    throw new GraphQLError("Empty ValueInput", {
+      extensions: { code: "BAD_USER_INPUT" },
+    });
+  }
+
+  const cacheKey = getCacheKey(opType, values);
+  const cachedData = await getCacheIfPresent(cacheKey);
+  if (cachedData) {
+    return parseFloat(cachedData);
+  }
+
+  let opResult;
   switch (opType) {
     case OperationType.Sum:
-      return values.reduce((a, b) => a + b);
+      opResult = values.reduce((a, b) => a + b);
+      break;
     case OperationType.Subtract:
-      return values.reduce((a, b) => a - b);
+      opResult = values.reduce((a, b) => a - b);
+      break;
     case OperationType.Multiply:
-      return values.reduce((a, b) => a * b);
+      opResult = values.reduce((a, b) => a * b);
+      break;
     case OperationType.Divide:
-      return values.reduce((a, b) => a / b);
+      opResult = values.reduce((a, b) => a / b);
+      break;
     default:
-      throw new Error("Unknown operation type");
+      throw new GraphQLError("Unknown operation type", {
+        extensions: { code: "BAD_USER_INPUT" },
+      });
   }
+
+  setCacheValue(cacheKey, opResult);
+  return opResult;
 }
 
-function resolveValue(values: ValueInput, parentOpType: OperationType) {
+async function resolveValue(values: ValueInput, parentOpType: OperationType) {
   // if is numbers then do calc based on parent operation type
   if (values.numbers) {
     return calculate(values.numbers, parentOpType);
@@ -31,17 +56,21 @@ function resolveValue(values: ValueInput, parentOpType: OperationType) {
     return resolveOperation(values.operation);
   }
 
-  throw new Error("Empty ValueInput");
+  throw new GraphQLError("Empty ValueInput", {
+    extensions: { code: "BAD_USER_INPUT" },
+  });
 }
 
-function resolveOperation(operation: OperationInput): number {
+async function resolveOperation(operation: OperationInput): Promise<number> {
   const parentOpType = operation.type;
 
-  const childOpResults = operation.values.map((childValue) =>
+  const childOpPromises = operation.values.map((childValue) =>
     resolveValue(childValue, parentOpType)
   );
 
-  return calculate(childOpResults, parentOpType);
+  const childOpResults = await Promise.all(childOpPromises);
+
+  return await calculate(childOpResults, parentOpType);
 }
 
 export const resolvers: Resolvers = {

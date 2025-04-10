@@ -11,3 +11,5 @@ services:
       retries: 5
     ports:
       - 4000:4000
+  redis:
+    image: redis:latest
